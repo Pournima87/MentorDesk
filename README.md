@@ -75,11 +75,6 @@ MentorDesk/
 
 ---
 
-## 🌐 Live Demo
 
-
-
-
----
 
 
