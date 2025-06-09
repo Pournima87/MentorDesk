@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>QR Code Payment – Enroll</title>
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body style="background: linear-gradient(135deg, #FF6B35 0%, #4EA5D9 100%);">
+  <div class="form-container">
+    <h2>Scan to Enroll</h2>
+
+    <div class="qr-section" style="text-align: center;">
+      <img src="{% static 'images/qr-code.jpg' %}" alt="QR Code" class="qr-img" 
+      style="width: 300px; height: 300px; border-radius: 12px;"/>
+    </div>
+    <div>
+      <p><strong>Course:</strong> {{ course_name }}</p>
+      <p><strong>Amount:</strong> ₹{{ course_fee }}</p>
+      <p><strong>UPI ID:</strong> yourname@upi</p>
+    </div>
+    <div class="instructions">
+      <h3>Instructions:</h3>
+      <ul>
+        <li>Open your UPI app (Google Pay, PhonePe, Paytm, etc.)</li>
+        <li>Scan the QR code above</li>
+        <li>Enter the amount: ₹{{ course_fee }}</li>
+        <li>Add your <strong>Name & Course</strong> in the payment note</li>
+      </ul>
+    </div>
+
+    <a href="{% url 'courses_list' %}" style="
+    display: block;
+    width: 100%;
+    background: #ff6b35;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s ease;
+" onmouseover="this.style.background='#e65c2a'" onmouseout="this.style.background='#ff6b35'">
+    ✔ I Have Paid – Confirm Enrollment<br>
+    <span class="BTD">Back to Dashboard</span>
+</a>
+
+
+    <p class="contact-info" style="text-align: center;
+    margin-top: 20px;">
+      Having trouble? Contact us on WhatsApp or Call: <br>
+    <span class="phone-hover">+91-9970303771</span>
+    </p>
+  </div>
+  
+</body>
+</html>

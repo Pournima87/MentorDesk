@@ -1,0 +1,753 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MentorDesk - A Digital Platform for Mentor-Learner Bond</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#FF6B35',secondary:'#4EA5D9'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            secondary: '#4EA5D9'
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .loading span {
+      width: 4px;
+      height: 50px;
+      animation: scale 0.9s ease-in-out infinite;
+    }
+    .loading span:nth-child(2) { animation-delay: -0.8s; background: #49a84c; }
+    .loading span:nth-child(3) { animation-delay: -0.7s; background: #f6bb02; }
+    .loading span:nth-child(4) { animation-delay: -0.6s; background: #f6bb02; }
+    .loading span:nth-child(5) { animation-delay: -0.5s; background: #2196f3; }
+    @keyframes scale {
+      0%, 40%, 100% { transform: scaleY(0.05); }
+      20% { transform: scaleY(1); }
+    }
+  </style>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Poppins', sans-serif;
+scroll-behavior: smooth;
+}
+.hero-section {
+background: linear-gradient(135deg, #FF6B35 0%, #4EA5D9 100%);
+background-size: cover;
+background-position: center;
+}
+.video-carousel {
+position: relative;
+width: 100%;
+aspect-ratio: 16/9;
+overflow: hidden;
+}
+.video-slides {
+display: flex;
+width: 100%;
+height: 100%;
+}
+.video-slide {
+position: relative;
+width: 100%;
+height: 100%;
+flex-shrink: 0;
+}
+.video-slide img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.carousel-prev,
+.carousel-next {
+cursor: pointer;
+z-index: 10;
+}
+.video-dots button {
+transition: all 0.3s ease;
+}
+@media (max-width: 1024px) {
+.video-carousel {
+margin-top: 2rem;
+}
+}
+.mentorship-section {
+background-image: url('https://readdy.ai/api/search-image?query=calm%2520and%2520supportive%2520educational%2520environment%2C%2520soft%2520lighting%2C%2520warm%2520colors%2C%2520showing%2520mentor%2520and%2520student%2520interaction%2C%2520digital%2520devices%2C%2520books%2C%2520plants%2C%2520comfortable%2520seating%2C%2520modern%2520interior%2520design%2C%2520professional%2520photography%2C%2520high%2520quality&width=1920&height=600&seq=mentor1&orientation=landscape');
+background-size: cover;
+background-position: center;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.custom-checkbox {
+position: relative;
+padding-left: 28px;
+cursor: pointer;
+user-select: none;
+}
+.custom-checkbox input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+.checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 20px;
+width: 20px;
+background-color: #fff;
+border: 2px solid #ddd;
+border-radius: 4px;
+}
+.custom-checkbox:hover input ~ .checkmark {
+border-color: #ccc;
+}
+.custom-checkbox input:checked ~ .checkmark {
+background-color: #FF6B35;
+border-color: #FF6B35;
+}
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+display: block;
+}
+.custom-checkbox .checkmark:after {
+left: 6px;
+top: 2px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ccc;
+transition: .4s;
+border-radius: 34px;
+}
+.slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .slider {
+background-color: #FF6B35;
+}
+input:checked + .slider:before {
+transform: translateX(26px);
+}
+.tab-active {
+background-color: #FF6B35;
+color: white;
+}
+.progress-bar {
+height: 8px;
+background-color: #e5e7eb;
+border-radius: 4px;
+overflow: hidden;
+}
+.progress-bar-fill {
+height: 100%;
+background-color: #FF6B35;
+border-radius: 4px;
+}
+.testimonial-card {
+transition: all 0.3s ease;
+}
+.testimonial-card:hover {
+transform: translateY(-5px);
+}
+</style>
+</head>
+<body>
+
+    <!-- Navigation -->
+<nav class="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+<div class="container mx-auto px-6 py-3 flex justify-between items-center">
+<a href="#" class="text-2xl font-['Pacifico'] text-primary">MentorDesk</a>
+<div class="hidden md:flex space-x-8">
+<a href="#Course List" class="text-gray-700 hover:text-primary transition-colors">Course List</a>
+<a href="#courses" class="text-gray-700 hover:text-primary transition-colors">Courses View</a>
+
+</div>
+<div class="flex items-center space-x-4">
+<a href="{% url 'login' %}" class="px-4 py-2 text-primary border border-primary !rounded-button hover:bg-primary hover:text-white transition-colors whitespace-nowrap">Log In</a>
+<button class="md:hidden w-10 h-10 flex items-center justify-center" id="mobile-menu-button">
+<i class="ri-menu-line ri-lg"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden bg-white w-full shadow-md">
+<div class="container mx-auto px-6 py-3 flex flex-col space-y-4">
+<a href="#Course List" class="text-gray-700 hover:text-primary transition-colors">Course List</a>
+<a href="#courses" class="text-gray-700 hover:text-primary transition-colors">Courses View</a>
+
+</div>
+</div>
+</nav>
+    <!-- Courses Section -->
+     
+<section id="courses" class="py-16 md:py-24 bg-gray-50">
+            <div class="container mx-auto px-6 ">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-800">Our Comprehensive Courses</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Explore our diverse range of courses designed to support your academic journey and exam preparation.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200 relative overflow-hidden">
+                            <img src="{% static 'images/img1.png' %}" alt="12th Notes + Pyqs + Mentorship + Mock tests" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                            
+                        </div>
+                        <div class="p-6 relative">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">12th Notes + Pyqs + Mentorship + Mock tests</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">Comprehensive</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Ace your Class 12th board exams with Learn with Harshali's comprehensive course! This meticulously designed program provides you with detailed, easy-to-understand notes covering the entire syllabus. Reinforce your learning with chapter-wise Previous Years' Questions (PYQs) to understand exam patterns and difficulty levels. Benefit from personalized mentorship to guide your preparation strategy and clarify doubts. Evaluate your progress and build exam confidence through strategically designed mock tests that simulate the actual board exam environment. Let Learn with Harshali be your trusted companion in achieving academic excellence in your 12th boards.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                        <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                            
+                            <img src="{% static 'images/img2.png' %}" alt="11th Notes + Pyqs + Mentorship + Mock tests" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                            
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">11th Notes + Pyqs + Mentorship + Mock tests</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">Comprehensive</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Lay a strong foundation for your future academic endeavors with Learn with Harshali's Class 11th course. This structured program offers well-organized and comprehensive notes for all key subjects, ensuring a thorough understanding of fundamental concepts. Practice with chapter-wise Previous Years' Questions (PYQs) to familiarize yourself with exam trends and question formats. Receive personalized guidance and support through our mentorship program to navigate your Class 11th curriculum effectively. Assess your learning and refine your exam-taking skills with our targeted mock tests. Empower your Class 11th journey with Learn with Harshali.
+</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                        <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                            <img src="{% static 'images/img3.png' %}" alt="MHT CET PCM PYQS LAST 10 years" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">MHT CET PCM PYQS LAST 10 years</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">MHT CET</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Conquer the MHT CET (Engineering) exam with Learn with Harshali's focused PYQ mastery course for the Physics, Chemistry, and Mathematics (PCM) group. This invaluable resource provides you with a comprehensive collection of the last 10 years' question papers, meticulously organized for effective practice. Understand the recurring themes, important concepts, and difficulty levels of the MHT CET exam. Solve these authentic questions to boost your speed, accuracy, and confidence, ensuring you are well-prepared to tackle the upcoming examination. Learn with Harshali empowers your MHT CET PCM preparation.
+</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                        <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                            <img src="{% static 'images/img4.png'%}" alt="MHT CET PCB PYQS LAST 10 years" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">MHT CET PCB PYQS LAST 10 years</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">MHT CET</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Excel in the MHT CET (Pharmacy/Agriculture) exam with Learn with Harshali's dedicated PYQ practice course for the Physics, Chemistry, and Biology (PCB) group. This essential tool offers an extensive compilation of question papers from the past decade, allowing you to thoroughly analyze the MHT CET exam pattern. Identify crucial topics, understand the weightage of different concepts, and refine your problem-solving skills. By diligently practicing these authentic PYQs, you'll gain the confidence and strategic edge needed to succeed in the MHT CET. Learn with Harshali is your key to MHT CET PCB success.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                        <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                            <img src="{% static 'images/img5.png' %}" alt="JEE MAINS Pyqs" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">JEE MAINS Pyqs</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">JEE</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Crack the JEE Mains examination with Learn with Harshali's focused practice course on Previous Years' Questions (PYQs). This carefully curated collection provides you with a wealth of authentic questions from past JEE Mains papers, allowing you to understand the exam's structure, question types, and difficulty progression. Sharpen your problem-solving abilities, improve your time management, and gain familiarity with the National Testing Agency (NTA) exam format. Learn with Harshali equips you with the essential practice needed to confidently face the JEE Mains.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                        <img src="{% static 'images/propic.jpeg'%}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                             <img src="{% static 'images/img6.png' %}" alt="JEE Advance Pyqs" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">JEE Advance Pyqs</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">JEE</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Master the challenging JEE Advanced examination with Learn with Harshali's comprehensive compilation of Previous Years' Questions (PYQs). This rigorous practice resource exposes you to the intricate and conceptual questions that define the JEE Advanced. Develop a deep understanding of fundamental principles, hone your analytical skills, and learn effective problem-solving strategies by working through these authentic past papers. Learn with Harshali provides the crucial practice required to excel in one of India's most competitive engineering entrance exams.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                        <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                            <img src="{% static 'images/img7.png' %}" alt="11-12th Pathway Batch" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">11-12th Pathway Batch (Detailed notes , guidance , pyqs and mock tests sessions )</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">Comprehensive</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Embark on your seamless Class 11th and 12th journey with Learn with Harshali's comprehensive Pathway Batch! This all-encompassing program provides you with detailed notes covering the entire syllabus for both years. Benefit from expert guidance to navigate the academic challenges and make informed decisions. Solidify your understanding with chapter-wise Previous Years' Questions (PYQs) and assess your progress through regular mock test sessions designed to simulate board exam conditions. Let Learn with Harshali be your trusted guide in building a strong academic foundation for your future success.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                         <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                            <img src="{% static 'images/img8.png' %}" alt="11-12th All chapter One pager Short Notes" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">11-12th All chapter One pager Short Notes</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">Notes</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Maximize your revision efficiency with Learn with Harshali's concise collection of One-Pager Short Notes for all chapters of the Class 11th and 12th syllabus. These meticulously crafted notes distill key concepts, formulas, and important points from each chapter onto a single page, providing a quick and effective tool for last-minute review and concept reinforcement. Perfect for rapid recall and strengthening your understanding, these one-pagers from Learn with Harshali are your secret weapon for effective exam preparation.
+</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                         <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                            <img src="{% static 'images/img9.png' %}" alt="10th All Subjects Short notes and one pager formula sheet" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">10th All Subjects Short notes and one pager formula sheet</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">Notes</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Excel in your Class 10th board exams with Learn with Harshali's comprehensive set of Short Notes and One-Pager Formula Sheets for all subjects. These concise notes provide a quick and effective way to revise key concepts and important information. The accompanying one-pager formula sheets offer a readily accessible compilation of all essential formulas, ensuring you have them at your fingertips during crucial study sessions. Let Learn with Harshali streamline your Class 10th preparation for optimal results.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                         <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                            <img src="{% static 'images/img10.png' %}" alt="Class 12th MHT CET SPECIAL BATCH" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">Class 12th MHT CET SPECIAL BATCH</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">MHT CET</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Gear up for MHT CET success with Learn with Harshali's specialized batch exclusively designed for Class 12th students. This targeted program focuses on the MHT CET syllabus, providing in-depth coverage of relevant topics, effective problem-solving techniques, and strategic approaches to tackle the exam. Benefit from focused practice sessions, mock tests aligned with the MHT CET pattern, and expert guidance to maximize your score and secure your desired engineering or pharmacy seat. Learn with Harshali is your dedicated partner in MHT CET success.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                         <img src="propic.jpeg" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                            <img src="{% static 'images/img11.png' %}" alt="Class 11th MHT CET SPEACIAL BATCH" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">Class 11th MHT CET SPEACIAL BATCH</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">MHT CET</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Prepare strategically for future MHT CET success with Learn with Harshali's specialized batch tailored for Class 11th students. This foundational program introduces you to the MHT CET exam pattern and syllabus, building a strong base for your future preparation. Gain a comprehensive understanding of key concepts, develop effective learning habits, and get a head start on your MHT CET journey. Learn with Harshali empowers Class 11th students to build a solid foundation for their future engineering or pharmacy aspirations.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                         <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+                        <div class="h-48 bg-gray-200">
+                             <img src="{% static 'images/img12.png' %}" alt="Class 11-12th MHTCET + JEE Crash Course batch" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300"> Class 11-12th MHTCET + JEE Crash Course batch</h3>
+                                <span class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">Crash Course</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Maximize your chances in both MHT CET and JEE with Learn with Harshali's intensive Crash Course Batch for Class 11th and 12th students. This power-packed program provides a focused and efficient approach to cover the essential concepts and problem-solving techniques required for both entrance examinations. Benefit from accelerated learning, targeted practice with PYQs, and strategic mock tests designed to optimize your performance in both MHT CET and JEE. Learn with Harshali is your ultimate solution for comprehensive entrance exam preparation.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                                         <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course List Table -->
+<div class="flex items-center justify-center min-h-screen mt-16">
+  <div class="max-w-5xl w-full bg-white rounded-xl p-6 shadow-lg relative">
+    <hr class="my-6">
+    <h4 class="text-lg font-semibold text-gray-700 mb-3" id = "Course List">📘 Course List</h4>
+    <div class="overflow-x-auto">
+      <table class="min-w-full table-auto text-sm text-left border border-gray-200 rounded-md">
+        <thead class="bg-gray-50">
+          <tr class="text-gray-700">
+            <th class="px-4 py-2 border">#</th>
+            <th class="px-4 py-2 border">Course Name</th>
+            <th class="px-4 py-2 border">Details</th>
+            <th class="px-4 py-2 border">Duration</th>
+            <th class="px-4 py-2 border">Fees (₹)</th>
+            <th class="px-4 py-2 border">Apply</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">1</td>
+            <td class="px-4 py-2 border font-medium">12th Notes + Pyqs + Mentorship + Mock tests</td>
+            <td class="px-4 py-2 border">Complete study material for 12th standard</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹2,999</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=12th%20Notes%20%2B%20Pyqs%20%2B%20Mentorship%20%2B%20Mock%20tests&course_fee=2999" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">2</td>
+            <td class="px-4 py-2 border font-medium">11th Notes + Pyqs + Mentorship + Mock tests</td>
+            <td class="px-4 py-2 border">Complete study material for 11th standard</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹2,999</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=11th%20Notes%20%2B%20Pyqs%20%2B%20Mentorship%20%2B%20Mock%20tests&course_fee=2999" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">3</td>
+            <td class="px-4 py-2 border font-medium">MHT CET PCM PYQS LAST 10 years</td>
+            <td class="px-4 py-2 border">Previous year questions for PCM stream</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹499</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=MHT%20CET%20PCM%20PYQS%20LAST%2010%20years&course_fee=499" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">4</td>
+            <td class="px-4 py-2 border font-medium">MHT CET PCB PYQS LAST 10 years</td>
+            <td class="px-4 py-2 border">Previous year questions for PCB stream</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹499</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=MHT%20CET%20PCB%20PYQS%20LAST%2010%20years&course_fee=499" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">5</td>
+            <td class="px-4 py-2 border font-medium">JEE MAINS Pyqs</td>
+            <td class="px-4 py-2 border">Previous year questions for JEE Mains</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹499</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=JEE%20MAINS%20Pyqs&course_fee=499" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">6</td>
+            <td class="px-4 py-2 border font-medium">JEE Advance Pyqs</td>
+            <td class="px-4 py-2 border">Previous year questions for JEE Advanced</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹999</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=JEE%20Advance%20Pyqs&course_fee=999" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">7</td>
+            <td class="px-4 py-2 border font-medium">11-12th Pathway Batch</td>
+            <td class="px-4 py-2 border">Detailed notes, guidance, pyqs and mock tests sessions</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹9,999</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=11-12th%20Pathway%20Batch&course_fee=9999" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">8</td>
+            <td class="px-4 py-2 border font-medium">11-12th All chapter One pager Short Notes</td>
+            <td class="px-4 py-2 border">Concise chapter-wise notes for quick revision</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹999</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=11-12th%20All%20chapter%20One%20pager%20Short%20Notes&course_fee=999" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">9</td>
+            <td class="px-4 py-2 border font-medium">10th All Subjects Short notes and one pager formula sheet</td>
+            <td class="px-4 py-2 border">Comprehensive notes and formulas for 10th standard</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹499</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=10th%20All%20Subjects%20Short%20notes%20and%20one%20pager%20formula%20sheet&course_fee=499" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">10</td>
+            <td class="px-4 py-2 border font-medium">Class 12th MHT CET SPECIAL BATCH</td>
+            <td class="px-4 py-2 border">Specialized coaching for 12th MHT CET aspirants</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹4,999</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=Class%2012th%20MHT%20CET%20SPECIAL%20BATCH&course_fee=4999" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">11</td>
+            <td class="px-4 py-2 border font-medium">Class 11th MHT CET SPECIAL BATCH</td>
+            <td class="px-4 py-2 border">Specialized coaching for 11th MHT CET aspirants</td>
+            <td class="px-4 py-2 border">15 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹4,999</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=Class%2011th%20MHT%20CET%20SPECIAL%20BATCH&course_fee=4999" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-2 border">12</td>
+            <td class="px-4 py-2 border font-medium">Class 11-12th MHTCET + JEE Crash Course batch</td>
+            <td class="px-4 py-2 border">Intensive preparation for both MHT CET and JEE</td>
+            <td class="px-4 py-2 border">12 months</td>
+            <td class="px-4 py-2 border font-semibold text-primary">₹9,999</td>
+            <td class="px-4 py-2 border">
+              <a href="{% url 'payment' %}?course_name=Class%2011-12th%20MHTCET%20%2B%20JEE%20Crash%20Course%20batch&course_fee=9999" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+            </td>            
+          </tr>
+          {% for course in courses %}
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-4 py-2 border">{{ forloop.counter|add:12 }}</td>
+              <td class="px-4 py-2 border font-medium">{{ course.name }}</td>
+              <td class="px-4 py-2 border">{{ course.details }}</td>
+              <td class="px-4 py-2 border">{{ course.duration }}</td>
+              <td class="px-4 py-2 border font-semibold text-primary">₹{{ course.fees }}</td>
+              <td class="px-4 py-2 border">
+                <a href="{% url 'payment' %}?course_name={{ course.name|urlencode }}&course_fee={{ course.fees }}" class="bg-primary text-white px-3 py-1 rounded hover:bg-opacity-90 transition-colors inline-block">Enroll</a>
+              </td>            
+            </tr>
+          {% empty %}
+            <!-- No additional courses from database -->
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+</section>
+
+<!-- Fixed Back Button -->
+<a href="{% url 'base' %}"
+   class="fixed bottom-4 left-4 z-50 inline-flex items-center bg-secondary text-white rounded-button px-5 py-2 text-sm font-medium shadow-md hover:bg-opacity-90 transition">
+  <i class="ri-arrow-left-line mr-2"></i> Back to Dashboard
+</a>
+    <!-- Footer -->
+<footer class="bg-gray-800 text-white pt-16 pb-8">
+<div class="container mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+<div>
+<a href="#" class="text-2xl font-['Pacifico'] text-white mb-4 inline-block">MentorDesk</a>
+<p class="text-gray-400 mb-6">Empowering students with knowledge and care through our digital mentorship platform.</p>
+<div class="flex space-x-4">
+<a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+<i class="ri-facebook-fill"></i>
+</a>
+<a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+<i class="ri-twitter-fill"></i>
+</a>
+<a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+<i class="ri-instagram-fill"></i>
+</a>
+<a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+<i class="ri-linkedin-fill"></i>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+<li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
+<li><a href="#courses" class="text-gray-400 hover:text-white transition-colors">Courses</a></li>
+<li><a href="#mentorship" class="text-gray-400 hover:text-white transition-colors">Mentorship</a></li>
+<li><a href="#testimonials" class="text-gray-400 hover:text-white transition-colors">Testimonials</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-semibold mb-4">Support</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQs</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-semibold mb-4">Subscribe</h3>
+<p class="text-gray-400 mb-4">Stay updated with our latest news and offers.</p>
+<form>
+<div class="flex mb-4">
+<input type="email" placeholder="Your email address" class="flex-grow px-4 py-2 rounded-l-lg focus:outline-none text-gray-800">
+<button type="submit" class="bg-primary px-4 py-2 rounded-r-lg hover:bg-opacity-90 transition-colors whitespace-nowrap">Subscribe</button>
+</div>
+</form>
+<p class="text-gray-400 text-sm">By subscribing, you agree to our Privacy Policy.</p>
+</div>
+</div>
+<div class="border-t border-gray-700 pt-8">
+<div class="flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 MentorDesk. All rights reserved.</p>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Privacy Policy</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Terms of Service</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Cookie Policy</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>
+
+

@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upload & Sell Content | MentorDesk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            secondary: '#4EA5D9'
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .loading span {
+      width: 4px;
+      height: 50px;
+      animation: scale 0.9s ease-in-out infinite;
+    }
+
+    .loading span:nth-child(2) { animation-delay: -0.8s; background: #49a84c; }
+    .loading span:nth-child(3) { animation-delay: -0.7s; background: #f6bb02; }
+    .loading span:nth-child(4) { animation-delay: -0.6s; background: #f6bb02; }
+    .loading span:nth-child(5) { animation-delay: -0.5s; background: #2196f3; }
+
+    @keyframes scale {
+      0%, 40%, 100% { transform: scaleY(0.05); }
+      20% { transform: scaleY(1); }
+    }
+  </style>
+</head>
+<body class="relative min-h-screen overflow-x-hidden">
+
+  <!-- Background & Overlay -->
+  <div class="absolute inset-0 bg-[url('{% static 'images/bg2.jpg' %}')] bg-cover bg-center bg-fixed z-0"></div>
+  <div class="absolute inset-0 bg-orange-500 bg-opacity-80 z-0"></div>
+
+  <!-- Main Container -->
+  <div class="relative z-10 p-6 flex items-center justify-center min-h-screen">
+    <div class="max-w-5xl w-full bg-white rounded-xl p-6 shadow-lg relative">
+      {% if messages %}
+  <div class="mb-4">
+    {% for message in messages %}
+      <div class="px-4 py-3 rounded bg-green-100 text-green-800 border border-green-300 text-sm">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+      <!-- Loader -->
+      <div id="loader" class="absolute inset-0 bg-white/80 hidden items-center justify-center rounded-xl z-50">
+        <div class="flex gap-2 loading">
+          <span class="bg-primary"></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <!-- Form Section -->
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+        {% if is_edit %}✏️ Edit Content{% else %}📚 Upload & Sell Content{% endif %}
+      </h2>
+
+      <form method="post" enctype="multipart/form-data" class="space-y-4">
+  {% csrf_token %}
+
+  <!-- Title -->
+  <div>
+    <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700">Title</label>
+    {{ form.title }}
+    {% if form.title.errors %}
+      <p class="text-red-500 text-sm mt-1">{{ form.title.errors.0 }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Description -->
+  <div>
+    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700">Description</label>
+    {{ form.description }}
+    {% if form.description.errors %}
+      <p class="text-red-500 text-sm mt-1">{{ form.description.errors.0 }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Course Tag -->
+  <div>
+    <label for="{{ form.course_tag.id_for_label }}" class="block text-sm font-medium text-gray-700">Course Tag</label>
+    {{ form.course_tag }}
+    {% if form.course_tag.errors %}
+      <p class="text-red-500 text-sm mt-1">{{ form.course_tag.errors.0 }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Price -->
+  <div>
+    <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-gray-700">Selling Price (₹)</label>
+    {{ form.price }}
+    {% if form.price.errors %}
+      <p class="text-red-500 text-sm mt-1">{{ form.price.errors.0 }}</p>
+    {% endif %}
+  </div>
+
+  <!-- File Upload -->
+  <div>
+    <label for="{{ form.uploaded_file.id_for_label }}" class="block text-sm font-medium text-gray-700">Upload File</label>
+    {{ form.uploaded_file }}
+    {% if form.uploaded_file.errors %}
+      <p class="text-red-500 text-sm mt-1">{{ form.uploaded_file.errors.0 }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex gap-4">
+    <button type="submit" class="bg-primary text-white px-5 py-2 rounded-md hover:bg-orange-600 transition">
+      {% if is_edit %}Update{% else %}Upload{% endif %}
+    </button>
+    {% if is_edit %}
+    <a href="{% url 'materials_upload' %}" class="text-gray-600 underline">Cancel Edit</a>
+    {% endif %}
+  </div>
+</form>
+
+
+      <!-- Table Section -->
+      <hr class="my-6" />
+      <h4 class="text-lg font-semibold text-gray-700 mb-3">📄 Uploaded Content List</h4>
+      <div class="overflow-x-auto">
+        <table class="w-full border border-gray-200 rounded-md text-sm text-left">
+          <thead class="bg-gray-100 text-gray-700">
+            <tr>
+              <th class="px-4 py-2 border">#</th>
+              <th class="px-4 py-2 border">Title</th>
+              <th class="px-4 py-2 border">Course</th>
+              <th class="px-4 py-2 border">Price</th>
+              <th class="px-4 py-2 border">File</th>
+              <th class="px-4 py-2 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for content in contents %}
+            <tr>
+              <td class="px-4 py-2 border">{{ forloop.counter }}</td>
+              <td class="px-4 py-2 border">{{ content.title }}</td>
+              <td class="px-4 py-2 border">{{ content.course_tag }}</td>
+              <td class="px-4 py-2 border">₹{{ content.price }}</td>
+              <td class="px-4 py-2 border">
+                {% if content.uploaded_file %}
+                  <a href="{{ content.uploaded_file.url }}" class="text-blue-600 underline" target="_blank">Download</a>
+                {% else %}
+                  No File
+                {% endif %}
+              </td>
+              <td class="px-4 py-2 border space-x-2">
+                <a href="{% url 'materials_edit' content.pk %}" class="text-blue-600">Edit</a> |
+                <form action="{% url 'materials_delete' content.pk %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="text-red-600" onclick="return confirm('Are you sure to delete?')">Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="6" class="text-center text-gray-500 py-4">No content uploaded yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Back to Dashboard Button -->
+  <a href="{% url 'teacher_dashboard' %}"
+    class="fixed bottom-4 left-4 z-50 inline-flex items-center bg-secondary text-white rounded-button px-5 py-2 text-sm font-medium shadow-md hover:bg-opacity-90 transition">
+    <i class="ri-arrow-left-line mr-2"></i> Back to Dashboard
+  </a>
+</body>
+</html>

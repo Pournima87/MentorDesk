@@ -1,0 +1,2059 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MentorDesk - A Digital Platform for Mentor-Learner Bond</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: "#FF6B35", secondary: "#4EA5D9" },
+          borderRadius: {
+            none: "0px",
+            sm: "4px",
+            DEFAULT: "8px",
+            md: "12px",
+            lg: "16px",
+            xl: "20px",
+            "2xl": "24px",
+            "3xl": "32px",
+            full: "9999px",
+            button: "8px",
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+  <style>
+    :where([class^="ri-"])::before {
+      content: "\f3c2";
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #ff6b35 0%, #4ea5d9 100%);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .video-carousel {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+
+    .video-slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .video-slide {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+    }
+
+    .video-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-prev,
+    .carousel-next {
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .video-dots button {
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 1024px) {
+      .video-carousel {
+        margin-top: 2rem;
+      }
+    }
+
+    .mentorship-section {
+      background-image: url("https://readdy.ai/api/search-image?query=calm%2520and%2520supportive%2520educational%2520environment%2C%2520soft%2520lighting%2C%2520warm%2520colors%2C%2520showing%2520mentor%2520and%2520student%2520interaction%2C%2520digital%2520devices%2C%2520books%2C%2520plants%2C%2520comfortable%2520seating%2C%2520modern%2520interior%2520design%2C%2520professional%2520photography%2C%2520high%2520quality&width=1920&height=600&seq=mentor1&orientation=landscape");
+      background-size: cover;
+      background-position: center;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .custom-checkbox {
+      position: relative;
+      padding-left: 28px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .custom-checkbox input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: #fff;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .custom-checkbox:hover input~.checkmark {
+      border-color: #ccc;
+    }
+
+    .custom-checkbox input:checked~.checkmark {
+      background-color: #ff6b35;
+      border-color: #ff6b35;
+    }
+
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    .custom-checkbox input:checked~.checkmark:after {
+      display: block;
+    }
+
+    .custom-checkbox .checkmark:after {
+      left: 6px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider {
+      background-color: #ff6b35;
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(26px);
+    }
+
+    .tab-active {
+      background-color: #ff6b35;
+      color: white;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: #ff6b35;
+      border-radius: 4px;
+    }
+
+    .testimonial-card {
+      transition: all 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+    <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+      <a href="#" class="text-2xl font-['Pacifico'] text-primary">MentorDesk</a>
+      <div class="hidden md:flex space-x-8">
+        <a href="#features" class="text-gray-700 hover:text-primary transition-colors">Features</a>
+        <a href="#courses" class="text-gray-700 hover:text-primary transition-colors">Courses</a>
+        <a href="#mentorship" class="text-gray-700 hover:text-primary transition-colors">Mentorship</a>
+        <a href="#testimonials" class="text-gray-700 hover:text-primary transition-colors">Testimonials</a>
+        <a href="#contact" class="text-gray-700 hover:text-primary transition-colors">Contact Us</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a href="{% url 'login' %}"
+          class="px-4 py-2 text-primary border border-primary !rounded-button hover:bg-primary hover:text-white transition-colors whitespace-nowrap">Log
+          In</a>
+        <button class="md:hidden w-10 h-10 flex items-center justify-center" id="mobile-menu-button">
+          <i class="ri-menu-line ri-lg"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white w-full shadow-md">
+      <div class="container mx-auto px-6 py-3 flex flex-col space-y-4">
+        <a href="#features" class="text-gray-700 hover:text-primary transition-colors">Features</a>
+        <a href="#courses" class="text-gray-700 hover:text-primary transition-colors">Courses</a>
+        <a href="#mentorship" class="text-gray-700 hover:text-primary transition-colors">Mentorship</a>
+        <a href="#testimonials" class="text-gray-700 hover:text-primary transition-colors">Testimonials</a>
+      </div>
+    </div>
+  </nav>
+  <!-- Hero Section -->
+  <section class="hero-section w-full min-h-screen flex items-center pt-20 relative overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <div class="video-carousel w-full h-full">
+        <div class="video-slides flex transition-transform duration-500 h-full">
+          <div class="video-slide min-w-full relative h-full">
+            <img
+              src="https://readdy.ai/api/search-image?query=modern%2520classroom%2520with%2520students%2520engaged%2520in%2520interactive%2520digital%2520learning%2C%2520bright%2520lighting%2C%2520advanced%2520technology%2C%2520collaborative%2520environment%2C%2520professional%2520photography&width=1920&height=1080&seq=edu1&orientation=landscape"
+              alt="Interactive Learning" class="w-full h-full object-cover" />
+          </div>
+          <div class="video-slide min-w-full relative h-full">
+            <img
+              src="https://readdy.ai/api/search-image?query=science%2520laboratory%2520with%2520students%2520conducting%2520experiments%2C%2520high-tech%2520equipment%2C%2520engaging%2520learning%2520environment%2C%2520professional%2520lighting%2C%2520educational%2520setting&width=1920&height=1080&seq=edu2&orientation=landscape"
+              alt="Science Experiments" class="w-full h-full object-cover" />
+          </div>
+          <div class="video-slide min-w-full relative h-full">
+            <img
+              src="https://readdy.ai/api/search-image?query=mathematics%2520class%2520with%25203D%2520geometric%2520projections%2C%2520students%2520using%2520tablets%2C%2520modern%2520classroom%2520technology%2C%2520engaging%2520visual%2520displays%2C%2520professional%2520photography&width=1920&height=1080&seq=edu3&orientation=landscape"
+              alt="Mathematics Learning" class="w-full h-full object-cover" />
+          </div>
+          <div class="video-slide min-w-full relative h-full">
+            <img
+              src="https://readdy.ai/api/search-image?query=language%2520learning%2520environment%2520with%2520multicultural%2520students%2C%2520interactive%2520displays%2C%2520modern%2520classroom%2520setting%2C%2520engaging%2520discussion%2C%2520professional%2520photography&width=1920&height=1080&seq=edu4&orientation=landscape"
+              alt="Language Learning" class="w-full h-full object-cover" />
+          </div>
+          <div class="video-slide min-w-full relative h-full">
+            <img
+              src="https://readdy.ai/api/search-image?query=art%2520and%2520design%2520classroom%2520with%2520digital%2520tablets%2C%2520creative%2520projects%2C%2520modern%2520educational%2520technology%2C%2520inspiring%2520environment%2C%2520professional%2520photography&width=1920&height=1080&seq=edu5&orientation=landscape"
+              alt="Creative Arts" class="w-full h-full object-cover" />
+          </div>
+        </div>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-secondary/80"></div>
+    </div>
+    <div class="container mx-auto px-6 py-16 md:py-24 relative z-10">
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="w-full lg:w-1/2 backdrop-blur-sm bg-white/10 p-8 rounded-xl">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">
+            Empowering Students with Knowledge & Care
+          </h1>
+          <p class="text-lg text-white/90 mb-8">
+            MentorDesk bridges the gap between mentors and learners, creating
+            a digital environment where knowledge meets emotional support.
+          </p>
+          <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="{% url 'register' %}"
+              class="px-6 py-3 bg-primary text-white font-medium !rounded-button hover:bg-opacity-90 transition-colors text-center whitespace-nowrap">Get
+              Started</a>
+            <a href="#features"
+              class="px-6 py-3 border border-primary text-primary font-medium !rounded-button hover:bg-primary hover:text-white transition-colors text-center whitespace-nowrap">Learn
+              More</a>
+          </div>
+        </div>
+        <div class="w-full lg:w-1/2">
+          <div class="relative">
+            <div class="video-carousel overflow-hidden rounded-xl shadow-lg">
+              <div class="video-slides flex transition-transform duration-500">
+                <div class="video-slide min-w-full relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=modern%2520classroom%2520with%2520students%2520engaged%2520in%2520interactive%2520digital%2520learning%2C%2520bright%2520lighting%2C%2520advanced%2520technology%2C%2520collaborative%2520environment%2C%2520professional%2520photography&width=800&height=450&seq=edu1&orientation=landscape"
+                    alt="Interactive Learning" class="w-full h-full object-cover" />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group hover:bg-opacity-30 transition-all cursor-pointer">
+                    <div id="play-button"
+                      class="w-16 h-16 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-opacity-90 transition-all">
+                      <i class="ri-play-fill ri-2x text-white"></i>
+                    </div>
+                    <!-- Video Modal -->
+                    <div id="video-modal" class="fixed inset-0 z-50 hidden">
+                      <div class="absolute inset-0 bg-black bg-opacity-75 transition-opacity"></div>
+                      <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <div class="relative bg-black rounded-xl overflow-hidden max-w-4xl w-full aspect-video">
+                          <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-50">
+                            <i class="ri-close-line ri-2x"></i>
+                          </button>
+                          <video id="video-player" class="w-full h-full" controls>
+                            <source src="https://public.readdy.ai/gen_page/sample_video.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                      <h3 class="text-xl font-semibold">
+                        Interactive Learning Methods
+                      </h3>
+                      <p class="text-sm opacity-90">
+                        Modern approaches to digital education
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="video-slide min-w-full relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=science%2520laboratory%2520with%2520students%2520conducting%2520experiments%2C%2520high-tech%2520equipment%2C%2520engaging%2520learning%2520environment%2C%2520professional%2520lighting%2C%2520educational%2520setting&width=800&height=450&seq=edu2&orientation=landscape"
+                    alt="Science Experiments" class="w-full h-full object-cover" />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group hover:bg-opacity-30 transition-all cursor-pointer">
+                    <div id="play-button"
+                      class="w-16 h-16 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-opacity-90 transition-all">
+                      <i class="ri-play-fill ri-2x text-white"></i>
+                    </div>
+                    <!-- Video Modal -->
+                    <div id="video-modal" class="fixed inset-0 z-50 hidden">
+                      <div class="absolute inset-0 bg-black bg-opacity-75 transition-opacity"></div>
+                      <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <div class="relative bg-black rounded-xl overflow-hidden max-w-4xl w-full aspect-video">
+                          <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-50">
+                            <i class="ri-close-line ri-2x"></i>
+                          </button>
+                          <video id="video-player" class="w-full h-full" controls>
+                            <source src="https://public.readdy.ai/gen_page/sample_video.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                      <h3 class="text-xl font-semibold">
+                        Hands-on Science Learning
+                      </h3>
+                      <p class="text-sm opacity-90">
+                        Virtual lab experiments and demonstrations
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="video-slide min-w-full relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=mathematics%2520class%2520with%25203D%2520geometric%2520projections%2C%2520students%2520using%2520tablets%2C%2520modern%2520classroom%2520technology%2C%2520engaging%2520visual%2520displays%2C%2520professional%2520photography&width=800&height=450&seq=edu3&orientation=landscape"
+                    alt="Mathematics Learning" class="w-full h-full object-cover" />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group hover:bg-opacity-30 transition-all cursor-pointer">
+                    <div id="play-button"
+                      class="w-16 h-16 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-opacity-90 transition-all">
+                      <i class="ri-play-fill ri-2x text-white"></i>
+                    </div>
+                    <!-- Video Modal -->
+                    <div id="video-modal" class="fixed inset-0 z-50 hidden">
+                      <div class="absolute inset-0 bg-black bg-opacity-75 transition-opacity"></div>
+                      <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <div class="relative bg-black rounded-xl overflow-hidden max-w-4xl w-full aspect-video">
+                          <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-50">
+                            <i class="ri-close-line ri-2x"></i>
+                          </button>
+                          <video id="video-player" class="w-full h-full" controls>
+                            <source src="https://public.readdy.ai/gen_page/sample_video.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                      <h3 class="text-xl font-semibold">
+                        Advanced Mathematics
+                      </h3>
+                      <p class="text-sm opacity-90">
+                        Visual approach to complex concepts
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="video-slide min-w-full relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=language%2520learning%2520environment%2520with%2520multicultural%2520students%2C%2520interactive%2520displays%2C%2520modern%2520classroom%2520setting%2C%2520engaging%2520discussion%2C%2520professional%2520photography&width=800&height=450&seq=edu4&orientation=landscape"
+                    alt="Language Learning" class="w-full h-full object-cover" />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group hover:bg-opacity-30 transition-all cursor-pointer">
+                    <div id="play-button"
+                      class="w-16 h-16 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-opacity-90 transition-all">
+                      <i class="ri-play-fill ri-2x text-white"></i>
+                    </div>
+                    <!-- Video Modal -->
+                    <div id="video-modal" class="fixed inset-0 z-50 hidden">
+                      <div class="absolute inset-0 bg-black bg-opacity-75 transition-opacity"></div>
+                      <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <div class="relative bg-black rounded-xl overflow-hidden max-w-4xl w-full aspect-video">
+                          <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-50">
+                            <i class="ri-close-line ri-2x"></i>
+                          </button>
+                          <video id="video-player" class="w-full h-full" controls>
+                            <source src="https://public.readdy.ai/gen_page/sample_video.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                      <h3 class="text-xl font-semibold">Language Mastery</h3>
+                      <p class="text-sm opacity-90">
+                        Interactive language learning sessions
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="video-slide min-w-full relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=art%2520and%2520design%2520classroom%2520with%2520digital%2520tablets%2C%2520creative%2520projects%2C%2520modern%2520educational%2520technology%2C%2520inspiring%2520environment%2C%2520professional%2520photography&width=800&height=450&seq=edu5&orientation=landscape"
+                    alt="Creative Arts" class="w-full h-full object-cover" />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group hover:bg-opacity-30 transition-all cursor-pointer">
+                    <div id="play-button"
+                      class="w-16 h-16 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-opacity-90 transition-all">
+                      <i class="ri-play-fill ri-2x text-white"></i>
+                    </div>
+                    <!-- Video Modal -->
+                    <div id="video-modal" class="fixed inset-0 z-50 hidden">
+                      <div class="absolute inset-0 bg-black bg-opacity-75 transition-opacity"></div>
+                      <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <div class="relative bg-black rounded-xl overflow-hidden max-w-4xl w-full aspect-video">
+                          <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-50">
+                            <i class="ri-close-line ri-2x"></i>
+                          </button>
+                          <video id="video-player" class="w-full h-full" controls>
+                            <source src="https://public.readdy.ai/gen_page/sample_video.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                      <h3 class="text-xl font-semibold">
+                        Digital Arts & Design
+                      </h3>
+                      <p class="text-sm opacity-90">
+                        Creative expression in digital age
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="absolute bottom-4 right-4 flex space-x-2">
+                <button
+                  class="carousel-prev w-10 h-10 rounded-full bg-black bg-opacity-50 flex items-center justify-center text-white hover:bg-opacity-70 transition-all">
+                  <i class="ri-arrow-left-s-line"></i>
+                </button>
+                <button
+                  class="carousel-next w-10 h-10 rounded-full bg-black bg-opacity-50 flex items-center justify-center text-white hover:bg-opacity-70 transition-all">
+                  <i class="ri-arrow-right-s-line"></i>
+                </button>
+              </div>
+            </div>
+            <div class="flex justify-center mt-4 video-dots space-x-2">
+              <button class="w-3 h-3 rounded-full bg-primary"></button>
+              <button class="w-3 h-3 rounded-full bg-gray-300"></button>
+              <button class="w-3 h-3 rounded-full bg-gray-300"></button>
+              <button class="w-3 h-3 rounded-full bg-gray-300"></button>
+              <button class="w-3 h-3 rounded-full bg-gray-300"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Video & Benefits Section -->
+  <section class="py-16 md:py-24 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row gap-12 items-center">
+        <div class="w-full md:w-1/2 rounded-xl overflow-hidden shadow-lg">
+          <div class="relative bg-gray-200 aspect-video flex items-center justify-center cursor-pointer group">
+            <img
+              src="https://readdy.ai/api/search-image?query=modern%2520classroom%2520with%2520students%2520and%2520teacher%2520using%2520digital%2520devices%2C%2520bright%2520and%2520colorful%2520environment%2C%2520educational%2520technology%2C%2520interactive%2520learning%2C%2520professional%2520photography%2C%2520high%2520quality&width=800&height=450&seq=video1&orientation=landscape"
+              alt="MentorDesk Introduction" class="w-full h-full object-cover" />
+            <div
+              class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
+              <div id="play-button"
+                class="w-16 h-16 bg-primary rounded-full flex items-center justify-center cursor-pointer hover:bg-opacity-90 transition-all">
+                <i class="ri-play-fill ri-2x text-white"></i>
+              </div>
+              <!-- Video Modal -->
+              <div id="video-modal" class="fixed inset-0 z-50 hidden">
+                <div class="absolute inset-0 bg-black bg-opacity-75 transition-opacity"></div>
+                <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                  <div class="relative bg-black rounded-xl overflow-hidden max-w-4xl w-full aspect-video">
+                    <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-50">
+                      <i class="ri-close-line ri-2x"></i>
+                    </button>
+                    <video id="video-player" class="w-full h-full" controls>
+                      <source src="https://public.readdy.ai/gen_page/sample_video.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full md:w-1/2">
+          <h2 class="text-3xl font-bold mb-6 text-gray-800">
+            Why MentorDesk?
+          </h2>
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4">
+                <i class="ri-user-star-line ri-lg text-primary"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-2">Expert Teachers</h3>
+                <p class="text-gray-600">
+                  Connect with qualified educators who are passionate about
+                  helping students succeed academically and personally.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4">
+                <i class="ri-heart-pulse-line ri-lg text-primary"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-2">
+                  Stress-Free Mentorship
+                </h3>
+                <p class="text-gray-600">
+                  Our platform focuses on emotional well-being alongside
+                  academic excellence, reducing learning anxiety.
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4">
+                <i class="ri-book-open-line ri-lg text-primary"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-2">
+                  Custom Course Content
+                </h3>
+                <p class="text-gray-600">
+                  Access personalized learning materials tailored to
+                  individual learning styles and educational needs.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Feature Highlights -->
+  <section id="features" class="py-16 md:py-24">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">
+          Feature Highlights
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Discover how MentorDesk transforms the educational experience with
+          innovative tools and features designed for both teachers and
+          students.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div
+          class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 group hover:-translate-y-1">
+          <div class="relative h-48 mb-6 rounded-lg overflow-hidden">
+            <img
+              src="https://readdy.ai/api/search-image?query=professional%2520teacher%2520mentoring%2520students%2C%2520modern%2520classroom%2520setting%2C%2520engaging%2520discussion%2C%2520warm%2520lighting%2C%2520positive%2520learning%2520environment%2C%2520high%2520quality%2520educational%2520photography&width=400&height=300&seq=feature1&orientation=landscape"
+              alt="Expert Teachers"
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            <div
+              class="absolute inset-0 bg-secondary bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300">
+            </div>
+            <div
+              class="absolute top-4 left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
+              <i class="ri-user-star-line ri-lg text-secondary"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-center group-hover:text-secondary transition-colors">
+            Expert Teachers
+          </h3>
+          <p class="text-gray-600 text-center">
+            Learn from qualified educators with years of experience in their
+            respective fields.
+          </p>
+        </div>
+        <div
+          class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 group hover:-translate-y-1">
+          <div class="relative h-48 mb-6 rounded-lg overflow-hidden">
+            <img
+              src="https://readdy.ai/api/search-image?query=supportive%2520mentorship%2520session%2C%2520student%2520and%2520teacher%2520having%2520positive%2520discussion%2C%2520comfortable%2520learning%2520space%2C%2520natural%2520lighting%2C%2520encouraging%2520environment%2C%2520high%2520quality%2520educational%2520photography&width=400&height=300&seq=feature2&orientation=landscape"
+              alt="Stress-Free Mentorship"
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            <div
+              class="absolute inset-0 bg-secondary bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300">
+            </div>
+            <div
+              class="absolute top-4 left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
+              <i class="ri-heart-pulse-line ri-lg text-secondary"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-center group-hover:text-secondary transition-colors">
+            Counseling Support
+          </h3>
+          <p class="text-gray-600 text-center">
+            Expert guidance for academic and personal growth.
+          </p>
+        </div>
+        <div
+          class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 group hover:-translate-y-1">
+          <div class="relative h-48 mb-6 rounded-lg overflow-hidden">
+            <img
+              src="https://readdy.ai/api/search-image?query=personalized%2520learning%2520materials%2C%2520digital%2520tablets%2C%2520interactive%2520content%2C%2520modern%2520educational%2520resources%2C%2520bright%2520study%2520environment%2C%2520high%2520quality%2520educational%2520photography&width=400&height=300&seq=feature3&orientation=landscape"
+              alt="Custom Course Content"
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            <div
+              class="absolute inset-0 bg-secondary bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300">
+            </div>
+            <div
+              class="absolute top-4 left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
+              <i class="ri-book-open-line ri-lg text-secondary"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-center group-hover:text-secondary transition-colors">
+            Custom Course Content
+          </h3>
+          <p class="text-gray-600 text-center">
+            Personalized learning materials tailored to individual learning
+            styles.
+          </p>
+        </div>
+        <div
+          class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 group hover:-translate-y-1">
+          <div class="relative h-48 mb-6 rounded-lg overflow-hidden">
+            <img
+              src="https://readdy.ai/api/search-image?query=student%2520progress%2520tracking%2C%2520digital%2520analytics%2520dashboard%2C%2520educational%2520data%2520visualization%2C%2520modern%2520technology%2C%2520clean%2520interface%2C%2520high%2520quality%2520educational%2520photography&width=400&height=300&seq=feature4&orientation=landscape"
+              alt="Progress Tracking"
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            <div
+              class="absolute inset-0 bg-secondary bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300">
+            </div>
+            <div
+              class="absolute top-4 left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
+              <i class="ri-line-chart-line ri-lg text-secondary"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold mb-3 text-center group-hover:text-secondary transition-colors">
+            Percentile & Rank Insights
+          </h3>
+          <p class="text-gray-600 text-center">
+            Calculate your percentile and rank to track your progress and set
+            goals.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Role-Based Cards 
+<section class="py-16 md:py-24 bg-gray-50">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl font-bold mb-4 text-gray-800">Choose Your Role</h2>
+<p class="text-gray-600 max-w-2xl mx-auto">MentorDesk offers tailored experiences for both students and teachers, providing the tools each needs to succeed.</p>
+</div>
+<div class="flex flex-col md:flex-row gap-8">
+<div class="w-full md:w-1/2 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+<div class="h-48 bg-secondary bg-opacity-10 flex items-center justify-center">
+<img src="https://readdy.ai/api/search-image?query=diverse%2520group%2520of%2520students%2520using%2520digital%2520devices%2520for%2520learning%2C%2520modern%2520classroom%2520setting%2C%2520bright%2520and%2520engaging%2520environment%2C%2520showing%2520collaboration%2520and%2520focus%2C%2520professional%2520photography%2C%2520high%2520quality&width=600&height=300&seq=students1&orientation=landscape" alt="Student Features" class="h-full w-full object-cover object-top">
+</div>
+<div class="p-6">
+<h3 class="text-2xl font-semibold mb-4 text-gray-800">For Students</h3>
+<ul class="space-y-3 mb-6">
+<li class="flex items-start">
+<i class="ri-check-line ri-lg text-primary mr-2"></i>
+<span class="text-gray-600">Access personalized learning materials</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line ri-lg text-primary mr-2"></i>
+<span class="text-gray-600">Track your progress with intuitive dashboards</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line ri-lg text-primary mr-2"></i>
+<span class="text-gray-600">Connect with mentors for academic and emotional support</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line ri-lg text-primary mr-2"></i>
+<span class="text-gray-600">Join interactive learning sessions and discussions</span>
+</li>
+</ul>
+<a href="#auth" class="inline-block px-6 py-3 bg-primary text-white font-medium !rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap">Join as Student</a>
+</div>
+</div>
+<div class="w-full md:w-1/2 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+<div class="h-48 bg-primary bg-opacity-10 flex items-center justify-center">
+<img src="https://readdy.ai/api/search-image?query=professional%2520teacher%2520using%2520digital%2520tablet%2520to%2520teach%2C%2520modern%2520classroom%2520environment%2C%2520educational%2520technology%2C%2520engaging%2520with%2520students%2C%2520professional%2520attire%2C%2520warm%2520lighting%2C%2520high%2520quality%2520photography&width=600&height=300&seq=teacher1&orientation=landscape" alt="Teacher Features" class="h-full w-full object-cover object-top">
+</div>
+<div class="p-6">
+<h3 class="text-2xl font-semibold mb-4 text-gray-800">For Teachers</h3>
+<ul class="space-y-3 mb-6">
+<li class="flex items-start">
+<i class="ri-check-line ri-lg text-primary mr-2"></i>
+<span class="text-gray-600">Create and manage custom course content</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line ri-lg text-primary mr-2"></i>
+<span class="text-gray-600">Monitor student progress and performance</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line ri-lg text-primary mr-2"></i>
+<span class="text-gray-600">Provide personalized mentorship and guidance</span>
+</li>
+<li class="flex items-start">
+<i class="ri-check-line ri-lg text-primary mr-2"></i>
+<span class="text-gray-600">Access teaching resources and professional development</span>
+</li>
+</ul>
+<a href="#auth" class="inline-block px-6 py-3 bg-primary text-white font-medium !rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap">Join as Teacher</a>
+</div>
+</div>
+</div>
+</div>
+</section>-->
+
+  <!-- Courses Section -->
+  <section id="courses" class="py-16 md:py-24 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">
+          Our Comprehensive Courses
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Explore our diverse range of courses designed to support your
+          academic journey and exam preparation.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div
+          class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+          <div class="h-48 bg-gray-200 relative overflow-hidden">
+            <img src="{% static 'images/img1.png' %}" alt="12th Notes + Pyqs + Mentorship + Mock tests"
+              class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
+          </div>
+          <div class="p-6 relative">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">
+                12th Notes + Pyqs + Mentorship + Mock tests
+              </h3>
+              <span
+                class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">Comprehensive</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                  <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari"
+                    class="w-full h-full object-cover" />
+                </div>
+                <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+          <div class="h-48 bg-gray-200">
+            <img src="{% static 'images/img2.png' %}" alt="11th Notes + Pyqs + Mentorship + Mock tests"
+              class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">
+                11th Notes + Pyqs + Mentorship + Mock tests
+              </h3>
+              <span
+                class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">Comprehensive</span>
+            </div>
+
+            <div class="flex justify-between items-center">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                  <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari"
+                    class="w-full h-full object-cover" />
+                </div>
+                <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+          <div class="h-48 bg-gray-200">
+            <img src="{% static 'images/img3.png' %}" alt="MHT CET PCM PYQS LAST 10 years"
+              class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">
+                MHT CET PCM PYQS LAST 10 years
+              </h3>
+              <span
+                class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">MHT
+                CET</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                  <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari"
+                    class="w-full h-full object-cover" />
+                </div>
+                <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+          <div class="h-48 bg-gray-200">
+            <img src="{% static 'images/img4.png'%}" alt="MHT CET PCB PYQS LAST 10 years"
+              class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">
+                MHT CET PCB PYQS LAST 10 years
+              </h3>
+              <span
+                class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">MHT
+                CET</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                  <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari"
+                    class="w-full h-full object-cover" />
+                </div>
+                <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+          <div class="h-48 bg-gray-200">
+            <img src="{% static 'images/img5.png' %}" alt="JEE MAINS Pyqs"
+              class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">
+                JEE MAINS Pyqs
+              </h3>
+              <span
+                class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">JEE</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                  <img src="{% static 'images/propic.jpeg'%}" alt="Prof. Harshali Bhandari"
+                    class="w-full h-full object-cover" />
+                </div>
+                <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group overflow-hidden">
+          <div class="h-48 bg-gray-200">
+            <img src="{% static 'images/img6.png' %}" alt="JEE Advance Pyqs"
+              class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-xl font-semibold text-gray-800 group-hover:text-primary transition-colors duration-300">
+                JEE Advance Pyqs
+              </h3>
+              <span
+                class="bg-secondary bg-opacity-10 text-secondary text-sm font-medium px-2 py-1 rounded group-hover:bg-secondary group-hover:text-white transition-all duration-300">JEE</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                  <img src="{% static 'images/propic.jpeg' %}" alt="Prof. Harshali Bhandari"
+                    class="w-full h-full object-cover" />
+                </div>
+                <span class="text-sm text-gray-600">Prof. Harshali Bhandari</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center mt-10">
+        <a href="{% url 'courses_list' %}"
+          class="px-6 py-3 border border-primary text-primary font-medium !rounded-button hover:bg-primary hover:text-white transition-colors whitespace-nowrap">View
+          All Courses</a>
+      </div>
+    </div>
+  </section>
+  ```
+
+  <!-- Mentorship Section -->
+  <section id="mentorship" class="mentorship-section py-16 md:py-24 relative">
+    <div class="absolute inset-0 bg-primary bg-opacity-80"></div>
+    <div class="container mx-auto px-6 relative z-10">
+      <div
+        class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8 md:p-12 transform transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]">
+        <h2 class="text-3xl font-bold mb-6 text-gray-800 transition-colors duration-300 hover:text-primary">
+          Personalized Counselling
+        </h2>
+        <p class="text-gray-600 mb-8">
+          At MentorDesk, we believe that education goes beyond academics. Our
+          counselling program connects students with caring educators who
+          provide guidance, support, and encouragement throughout their
+          learning journey.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div>
+            <div
+              class="flex items-start mb-4 group hover:-translate-y-1 transition-all duration-300 p-4 rounded-xl hover:bg-primary/5 cursor-pointer">
+              <div
+                class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
+                <i class="ri-message-3-line ri-lg text-primary group-hover:text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-2">One-on-One Support</h3>
+                <p class="text-gray-600">
+                  Schedule personal sessions with your mentor to discuss
+                  academic challenges or personal growth.
+                </p>
+              </div>
+            </div>
+            <div
+              class="flex items-start group hover:-translate-y-1 transition-all duration-300 p-4 rounded-xl hover:bg-primary/5 cursor-pointer">
+              <div
+                class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
+                <i class="ri-emotion-line ri-lg text-primary group-hover:text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-2">Emotional Support</h3>
+                <p class="text-gray-600">
+                  Our mentors are trained to provide emotional guidance and
+                  help students manage academic stress.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              class="flex items-start mb-4 group hover:-translate-y-1 transition-all duration-300 p-4 rounded-xl hover:bg-primary/5 cursor-pointer">
+              <div
+                class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
+                <i class="ri-calendar-check-line ri-lg text-primary group-hover:text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-2">
+                  Achieve Your Best Results
+                </h3>
+                <p class="text-gray-600">
+                  Get personalized counseling sessions tailored to your
+                  learning goals — designed to boost confidence, clarity, and
+                  academic performance.
+                </p>
+              </div>
+            </div>
+            <div
+              class="flex items-start group hover:-translate-y-1 transition-all duration-300 p-4 rounded-xl hover:bg-primary/5 cursor-pointer">
+              <div
+                class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4 transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
+                <i class="ri-team-line ri-lg text-primary group-hover:text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-2">Peer Connections</h3>
+                <p class="text-gray-600">
+                  Connect with fellow students through mentor-facilitated
+                  group sessions and collaborative projects.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <a href="{% url 'book_session' %}"
+            class="px-6 py-3 bg-primary text-white font-medium !rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap">Book
+            a Session</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Percentile Predictor Section -->
+  <section id="testimonials" class="py-16 md:py-24">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">
+          📌 MHT CET 2025: Smarter Choices Start Here
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Explore cutoffs, discover top colleges, and predict your percentile
+          — all in one place.
+        </p>
+      </div>
+      <div class="testimonial-slider relative">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="testimonial-card bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl hover:scale-105 hover:bg-primary/5">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 rounded-full overflow-hidden mr-4 transition-transform duration-300 hover:scale-110">
+                <img src="{% static 'images/download list.png' %}" alt="Emma Johnson"
+                  class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 hover:text-primary transition-colors">
+                  Branch-wise Cutoff List
+                </h4>
+                <p class="text-sm text-gray-600">
+                  Find the Minimum Scores You Need
+                </p>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex text-yellow-400">
+                🔹 Updated for MHT CET 2025<br />
+                🔹 Filter by college, branch, and category<br />
+                🔹 Quick access to previous years trends
+              </div>
+            </div>
+            <p class="text-gray-600 mb-4">
+              Explore a comprehensive list of minimum cut-off scores for each
+              engineering and pharmacy branch across top Maharashtra colleges.
+              Easily check your eligibility and shortlist colleges where you
+              have the best chance of admission.
+            </p>
+            <div class="text-center mt-4">
+              <a href="#"
+                class="px-4 py-2 bg-primary text-white font-medium !rounded-button hover:bg-opacity-90 hover:scale-105 transition-all duration-300">View
+                Cutoffs</a>
+            </div>
+          </div>
+          <div
+            class="testimonial-card bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl hover:scale-105 hover:bg-primary/5">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 rounded-full overflow-hidden mr-4 transition-transform duration-300 hover:scale-110">
+                <img src="{% static 'images/download university.png' %}" alt="Dr. Rebecca Martinez"
+                  class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 hover:text-primary transition-colors">
+                  Top Colleges List
+                </h4>
+                <p class="text-sm text-gray-600">
+                  Discover the Best Colleges for Your Career
+                </p>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex text-yellow-400">
+                🔹 Compare NIRF & student-rated rankings<br />
+                🔹 Insights on campus life, fees, and ROI<br />
+                🔹 Find the right fit for your goals
+              </div>
+            </div>
+            <p class="text-gray-600 mb-4">
+              Get a curated ranking of the top engineering and pharmacy
+              colleges in Maharashtra based on placements, infrastructure,
+              faculty, and student reviews. Perfect for making informed
+              decisions.
+            </p>
+            <div class="text-center mt-4">
+              <a href="#"
+                class="px-4 py-2 bg-primary text-white font-medium !rounded-button hover:bg-opacity-90 hover:scale-105 transition-all duration-300">Explore
+                Colleges</a>
+            </div>
+          </div>
+          <div
+            class="testimonial-card bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl hover:scale-105 hover:bg-primary/5">
+            <div class="flex items-center mb-4">
+              <div
+                class="w-12 h-12 rounded-full overflow-hidden mr-4 transition-transform duration-300 hover:scale-110">
+                <img src="{% static 'images/download graph.png' %}" alt="Raj Patel"
+                  class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 hover:text-primary transition-colors">
+                  MHT CET 2025 Percentile Predictor
+                </h4>
+                <p class="text-sm text-gray-600">
+                  Know Where You Stand Before Results
+                </p>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex text-yellow-400">
+                🔹 Instant, reliable percentile estimation<br />
+                🔹 Helps you target colleges smarter<br />
+                🔹 Based on the latest MHT CET 2025 pattern
+              </div>
+            </div>
+            <p class="text-gray-600 mb-4">
+              Estimate your percentile even before the official results are
+              out! Just enter your expected score, and get an instant
+              percentile prediction based on previous exam data.
+            </p>
+            <div class="text-center mt-4">
+            <a href="#" id="predict-now-btn" class="px-4 py-2 bg-primary text-white font-medium !rounded-button hover:bg-opacity-90 hover:scale-105 transition-all duration-300">Predict Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Contact Us Section -->
+  <section class="py-20 bg-gray-50" id="contact">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">Contact Us</h2>
+      </div>
+      <div class="bg-white rounded-3xl shadow-xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+        <!-- Left Side - Contact Info -->
+        <div class="bg-primary text-white p-10 space-y-6">
+          <h3 class="text-2xl font-bold">Contact Information</h3>
+          <p class="text-gray-100">Say something to start a live chat!</p>
+          <div class="space-y-4 text-sm">
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-phone-alt"></i>
+              <span>+1012 3456 789</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-envelope"></i>
+              <span>demo@gmail.com</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>132 Dartmouth Street Boston, Massachusetts 02156 United
+                States</span>
+            </div>
+          </div>
+          <div class="flex space-x-4 pt-6 text-xl">
+            <a href="#" class="hover:text-gray-300"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="hover:text-gray-300"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="hover:text-gray-300"><i class="fab fa-discord"></i></a>
+          </div>
+        </div>
+
+        <!-- Right Side - Form -->
+        <form method="POST" action="{% url 'send_mail_view' %}" class="p-10 space-y-6 bg-white">
+          {% csrf_token %}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-700 font-medium mb-1">First Name</label>
+              <input type="text" name="first_name" required
+                class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="John" />
+            </div>
+            <div>
+              <label class="block text-gray-700 font-medium mb-1">Last Name</label>
+              <input type="text" name="last_name" required
+                class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Doe" />
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-700 font-medium mb-1">Email</label>
+              <input type="email" name="email" required
+                class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="you@example.com" />
+            </div>
+            <div>
+              <label class="block text-gray-700 font-medium mb-1">Phone Number</label>
+              <input type="tel" name="phone" required
+                class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="+1 012 3456 789" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">Select Subject?</label>
+            <div class="flex flex-wrap gap-4 pt-2">
+              <label class="inline-flex items-center">
+                <input type="radio" name="subject" value="General Inquiry" class="form-radio text-primary" checked />
+                <span class="ml-2 text-gray-700">General Inquiry</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="subject" value="Support Request" class="form-radio text-primary" />
+                <span class="ml-2 text-gray-700">Support Request</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="subject" value="Feedback" class="form-radio text-primary" />
+                <span class="ml-2 text-gray-700">Feedback</span>
+              </label>
+            </div>
+          </div>
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">Message</label>
+            <textarea name="message" rows="4" required
+              class="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+              placeholder="Write your message..."></textarea>
+          </div>
+          <div>
+            <button type="submit"
+              class="w-full md:w-auto bg-primary text-white font-semibold py-3 px-8 rounded-xl hover:bg-opacity-90 transition-all">
+              Send Message
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-16 md:py-24">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">
+          What Our Students Say
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Hear from students who have experienced the benefits of MentorDesk
+          firsthand.
+        </p>
+      </div>
+      <div class="testimonial-slider relative">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="testimonial-card bg-white p-6 rounded-xl shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img
+                  src="https://readdy.ai/api/search-image?query=student%2520portrait%2C%2520young%2520female%2C%2520smiling%2C%2520casual%2520attire%2C%2520neutral%2520background%2C%2520high%2520quality%2520headshot&width=100&height=100&seq=student4&orientation=squarish"
+                  alt="Emma Johnson" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800">Emma Johnson</h4>
+                <p class="text-sm text-gray-600">Grade 12 Student</p>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex text-yellow-400">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+              </div>
+            </div>
+            <p class="text-gray-600 mb-4">
+              "MentorDesk has completely transformed my learning experience.
+              The personalized attention from my mentors helped me overcome my
+              fear of mathematics and improve my grades significantly. I love
+              how I can access all my courses and schedule sessions in one
+              place."
+            </p>
+            <p class="text-sm text-gray-500 italic">
+              Using MentorDesk for 8 months
+            </p>
+          </div>
+          <div class="testimonial-card bg-white p-6 rounded-xl shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img
+                  src="https://readdy.ai/api/search-image?query=professional%2520female%2520teacher%2520portrait%2C%2520glasses%2C%2520warm%2520smile%2C%2520professional%2520attire%2C%2520neutral%2520background%2C%2520high%2520quality%2520headshot&width=100&height=100&seq=teacher9&orientation=squarish"
+                  alt="Dr. Rebecca Martinez" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800">
+                  Dr. Rebecca Martinez
+                </h4>
+                <p class="text-sm text-gray-600">Science Teacher</p>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex text-yellow-400">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-half-fill"></i>
+              </div>
+            </div>
+            <p class="text-gray-600 mb-4">
+              "As an educator, MentorDesk has streamlined my teaching process
+              and allowed me to focus more on individual student needs. The
+              analytics tools help me identify areas where students are
+              struggling, and the content creation features are intuitive and
+              powerful."
+            </p>
+            <p class="text-sm text-gray-500 italic">
+              Using MentorDesk for 1 year
+            </p>
+          </div>
+          <div class="testimonial-card bg-white p-6 rounded-xl shadow-md">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img
+                  src="https://readdy.ai/api/search-image?query=student%2520portrait%2C%2520young%2520male%2C%2520indian%2C%2520smiling%2C%2520casual%2520attire%2C%2520neutral%2520background%2C%2520high%2520quality%2520headshot&width=100&height=100&seq=student5&orientation=squarish"
+                  alt="Raj Patel" class="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800">Raj Patel</h4>
+                <p class="text-sm text-gray-600">Grade 10 Student</p>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex text-yellow-400">
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-fill"></i>
+                <i class="ri-star-line"></i>
+              </div>
+            </div>
+            <p class="text-gray-600 mb-4">
+              "What I appreciate most about MentorDesk is the emotional
+              support. My mentor doesn't just help me with academics but also
+              guides me through the stress of exams and college applications.
+              The platform is easy to use and makes learning enjoyable."
+            </p>
+            <p class="text-sm text-gray-500 italic">
+              Using MentorDesk for 6 months
+            </p>
+          </div>
+        </div>
+        <div class="flex justify-center mt-8">
+          <button class="w-3 h-3 rounded-full bg-primary mx-1"></button>
+          <button class="w-3 h-3 rounded-full bg-gray-300 mx-1"></button>
+          <button class="w-3 h-3 rounded-full bg-gray-300 mx-1"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white pt-16 pb-8">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div>
+          <a href="#" class="text-2xl font-['Pacifico'] text-white mb-4 inline-block">MentorDesk</a>
+          <p class="text-gray-400 mb-6">
+            Empowering students with knowledge and care through our digital
+            mentorship platform.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#"
+              class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+              <i class="ri-facebook-fill"></i>
+            </a>
+            <a href="#"
+              class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+              <i class="ri-twitter-fill"></i>
+            </a>
+            <a href="#"
+              class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+              <i class="ri-instagram-fill"></i>
+            </a>
+            <a href="#"
+              class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition-colors">
+              <i class="ri-linkedin-fill"></i>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition-colors">Home</a>
+            </li>
+            <li>
+              <a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a>
+            </li>
+            <li>
+              <a href="#courses" class="text-gray-400 hover:text-white transition-colors">Courses</a>
+            </li>
+            <li>
+              <a href="#mentorship" class="text-gray-400 hover:text-white transition-colors">Mentorship</a>
+            </li>
+            <li>
+              <a href="#testimonials" class="text-gray-400 hover:text-white transition-colors">Testimonials</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Support</h3>
+          <ul class="space-y-2">
+            <!--<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQs</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>-->
+            <li>
+              <a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Subscribe</h3>
+          <p class="text-gray-400 mb-4">
+            Stay updated with our latest news and offers.
+          </p>
+
+          <!-- Django Subscribe Form Integration -->
+          <form method="POST" action="{% url 'subscribe' %}">
+            {% csrf_token %}
+            <div class="flex mb-4">
+              <input type="email" name="email" placeholder="Your email address" required
+                class="flex-grow px-4 py-2 rounded-l-lg focus:outline-none text-gray-800" />
+              <button type="submit"
+                class="bg-primary px-4 py-2 rounded-r-lg hover:bg-opacity-90 transition-colors whitespace-nowrap">
+                Subscribe
+              </button>
+            </div>
+          </form>
+
+          <p class="text-gray-400 text-sm">
+            By subscribing, you agree to our Privacy Policy.
+          </p>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-700 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm mb-4 md:mb-0">
+            © 2025 MentorDesk. All rights reserved.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Privacy Policy</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Video modal functionality
+      const playButton = document.getElementById("play-button");
+      const videoModal = document.getElementById("video-modal");
+      const closeModal = document.getElementById("close-modal");
+      const videoPlayer = document.getElementById("video-player");
+      if (playButton && videoModal && closeModal && videoPlayer) {
+        playButton.addEventListener("click", () => {
+          videoModal.classList.remove("hidden");
+          videoPlayer.play();
+          document.body.style.overflow = "hidden";
+        });
+        closeModal.addEventListener("click", () => {
+          videoModal.classList.add("hidden");
+          videoPlayer.pause();
+          videoPlayer.currentTime = 0;
+          document.body.style.overflow = "";
+        });
+        videoModal.addEventListener("click", (e) => {
+          if (e.target === videoModal) {
+            videoModal.classList.add("hidden");
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+            document.body.style.overflow = "";
+          }
+        });
+        document.addEventListener("keydown", (e) => {
+          if (
+            e.key === "Escape" &&
+            !videoModal.classList.contains("hidden")
+          ) {
+            videoModal.classList.add("hidden");
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+            document.body.style.overflow = "";
+          }
+        });
+      }
+      // Mobile menu toggle
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+      mobileMenuButton.addEventListener("click", function () {
+        mobileMenu.classList.toggle("hidden");
+      });
+      // Video carousel functionality
+      let currentSlide = 0;
+      const slides = document.querySelector(".video-slides");
+      const dots = document.querySelectorAll(".video-dots button");
+      const totalSlides = document.querySelectorAll(".video-slide").length;
+      const prevButton = document.querySelector(".carousel-prev");
+      const nextButton = document.querySelector(".carousel-next");
+      function updateCarousel() {
+        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+        dots.forEach((dot, index) => {
+          if (index === currentSlide) {
+            dot.classList.remove("bg-gray-300");
+            dot.classList.add("bg-primary");
+          } else {
+            dot.classList.remove("bg-primary");
+            dot.classList.add("bg-gray-300");
+          }
+        });
+      }
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateCarousel();
+      }
+      function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+      }
+      // Add click events for navigation
+      prevButton.addEventListener("click", prevSlide);
+      nextButton.addEventListener("click", nextSlide);
+      // Add click events for dots
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          currentSlide = index;
+          updateCarousel();
+        });
+      });
+      // Auto-advance carousel
+      let carouselInterval = setInterval(nextSlide, 5000);
+      // Pause auto-advance on hover
+      const carousel = document.querySelector(".video-carousel");
+      carousel.addEventListener("mouseenter", () => {
+        clearInterval(carouselInterval);
+      });
+      carousel.addEventListener("mouseleave", () => {
+        carouselInterval = setInterval(nextSlide, 5000);
+      });
+      // Handle touch events for swipe
+      let touchStartX = 0;
+      let touchEndX = 0;
+      carousel.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.touches[0].clientX;
+        },
+        false
+      );
+      carousel.addEventListener(
+        "touchmove",
+        (e) => {
+          touchEndX = e.touches[0].clientX;
+        },
+        false
+      );
+      carousel.addEventListener(
+        "touchend",
+        () => {
+          if (touchStartX - touchEndX > 50) {
+            nextSlide();
+          } else if (touchEndX - touchStartX > 50) {
+            prevSlide();
+          }
+        },
+        false
+      );
+      // Handle video slides
+      const videoSlides = document.querySelectorAll(".video-slide video");
+      let currentVideoPlaying = videoSlides[0];
+      function handleVideoTransition() {
+        videoSlides.forEach((video, index) => {
+          if (index === currentSlide) {
+            video.play();
+            currentVideoPlaying = video;
+          } else {
+            video.pause();
+            video.currentTime = 0;
+          }
+        });
+      }
+      // Update carousel function to handle videos
+      function updateCarousel() {
+        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+        handleVideoTransition();
+        dots.forEach((dot, index) => {
+          if (index === currentSlide) {
+            dot.classList.remove("bg-gray-300");
+            dot.classList.add("bg-primary");
+          } else {
+            dot.classList.remove("bg-primary");
+            dot.classList.add("bg-gray-300");
+          }
+        });
+      }
+      // Initialize first video
+      videoSlides[0].play();
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href");
+          if (targetId === "#") return;
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: "smooth",
+            });
+            // Close mobile menu if open
+            if (!mobileMenu.classList.contains("hidden")) {
+              mobileMenu.classList.add("hidden");
+            }
+          }
+        });
+      });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      // Auth tabs
+      const loginTab = document.getElementById("login-tab");
+      const registerTab = document.getElementById("register-tab");
+      const loginForm = document.getElementById("login-form");
+      const registerForm = document.getElementById("register-form");
+      loginTab.addEventListener("click", function () {
+        loginTab.classList.add("tab-active");
+        loginTab.classList.remove("text-gray-600");
+        registerTab.classList.remove("tab-active");
+        registerTab.classList.add("text-gray-600");
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+      });
+      registerTab.addEventListener("click", function () {
+        registerTab.classList.add("tab-active");
+        registerTab.classList.remove("text-gray-600");
+        loginTab.classList.remove("tab-active");
+        loginTab.classList.add("text-gray-600");
+        registerForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+      });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      // Performance chart
+      const chartDom = document.getElementById("performance-chart");
+      if (chartDom) {
+        const myChart = echarts.init(chartDom);
+        const option = {
+          animation: false,
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          grid: {
+            top: 10,
+            right: 10,
+            bottom: 20,
+            left: 40,
+          },
+          xAxis: {
+            type: "category",
+            data: ["Jan", "Feb", "Mar", "Apr", "May"],
+            axisLabel: {
+              color: "#1f2937",
+            },
+          },
+          yAxis: {
+            type: "value",
+            axisLabel: {
+              color: "#1f2937",
+            },
+          },
+          series: [
+            {
+              name: "Average Score",
+              type: "line",
+              smooth: true,
+              data: [78, 82, 80, 85, 90],
+              color: "rgba(87, 181, 231, 1)",
+              areaStyle: {
+                color: {
+                  type: "linear",
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(87, 181, 231, 0.2)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(87, 181, 231, 0.05)",
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              name: "Completion Rate",
+              type: "line",
+              smooth: true,
+              data: [65, 70, 75, 82, 88],
+              color: "rgba(141, 211, 199, 1)",
+              areaStyle: {
+                color: {
+                  type: "linear",
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(141, 211, 199, 0.2)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(141, 211, 199, 0.05)",
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        };
+        myChart.setOption(option);
+        window.addEventListener("resize", function () {
+          myChart.resize();
+        });
+      }
+    });
+
+// Percentile Calculator Modal
+document.addEventListener("DOMContentLoaded", function() {
+  const percentileModal = document.getElementById('percentile-modal');
+  const closePercentileModal = document.getElementById('close-percentile-modal');
+  const percentileForm = document.getElementById('percentile-form');
+  const resultDiv = document.getElementById('result');
+  const percentileResult = document.getElementById('percentile-result');
+  
+  // Tab switching
+  const pcmTab = document.getElementById('pcm-tab');
+  const pcbTab = document.getElementById('pcb-tab');
+  const mathsField = document.getElementById('maths-field');
+  const biologyField = document.getElementById('biology-field');
+  let currentMode = 'pcm'; // Default mode
+  
+  if (pcmTab && pcbTab) {
+    pcmTab.addEventListener('click', () => {
+      pcmTab.classList.add('border-b-2', 'border-primary', 'text-primary');
+      pcmTab.classList.remove('text-gray-500');
+      pcbTab.classList.remove('border-b-2', 'border-primary', 'text-primary');
+      pcbTab.classList.add('text-gray-500');
+      mathsField.classList.remove('hidden');
+      biologyField.classList.add('hidden');
+      currentMode = 'pcm';
+      
+      // Reset form
+      percentileForm.reset();
+      resultDiv.classList.add('hidden');
+    });
+    
+    pcbTab.addEventListener('click', () => {
+      pcbTab.classList.add('border-b-2', 'border-primary', 'text-primary');
+      pcbTab.classList.remove('text-gray-500');
+      pcmTab.classList.remove('border-b-2', 'border-primary', 'text-primary');
+      pcmTab.classList.add('text-gray-500');
+      biologyField.classList.remove('hidden');
+      mathsField.classList.add('hidden');
+      currentMode = 'pcb';
+      
+      // Reset form
+      percentileForm.reset();
+      resultDiv.classList.add('hidden');
+    });
+  }
+
+  // Open modal when "Predict Now" button is clicked
+  const predictNowBtn = document.getElementById('predict-now-btn');
+  if (predictNowBtn) {
+    predictNowBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      percentileModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  // Close modal
+  if (closePercentileModal) {
+    closePercentileModal.addEventListener('click', () => {
+      percentileModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    });
+  }
+
+  // Close modal when clicking outside
+  if (percentileModal) {
+    percentileModal.addEventListener('click', (e) => {
+      if (e.target === percentileModal) {
+        percentileModal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+  
+  // Calculate percentile on form submit
+  if (percentileForm) {
+    percentileForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const physics = parseFloat(document.getElementById('physics-marks').value);
+      const chemistry = parseFloat(document.getElementById('chemistry-marks').value);
+      
+      let thirdSubject, totalScore;
+      
+      if (currentMode === 'pcm') {
+        thirdSubject = parseFloat(document.getElementById('maths-marks').value);
+      } else { // pcb mode
+        thirdSubject = parseFloat(document.getElementById('biology-marks').value);
+      }
+      
+      // Calculate total score
+      totalScore = physics + chemistry + thirdSubject;
+      
+      // Percentile calculation based on provided ranges
+      let percentile;
+      if (totalScore > 190) {
+        percentile = 99.9;
+      } else if (totalScore > 180) {
+        percentile = 99.8;
+      } else if (totalScore > 170) {
+        percentile = 99.7;
+      } else if (totalScore > 160) {
+        percentile = 99.5;
+      } else if (totalScore > 150) {
+        percentile = 99.4;
+      } else if (totalScore > 140) {
+        percentile = 98.7;
+      } else if (totalScore > 130) {
+        percentile = 97.5;
+      } else if (totalScore > 120) {
+        percentile = 96.5;
+      } else if (totalScore > 110) {
+        percentile = 94.5;
+      } else if (totalScore > 100) {
+        percentile = 91.5;
+      } else if (totalScore > 90) {
+        percentile = 88.5;
+      } else if (totalScore > 80) {
+        percentile = 83.5;
+      } else if (totalScore > 70) {
+        percentile = 77.5;
+      } else if (totalScore > 60) {
+        percentile = 70;
+      } else if (totalScore > 50) {
+        percentile = 57.5;
+      } else {
+        percentile = totalScore;
+      }
+      
+      // Display result
+      percentileResult.textContent = percentile.toFixed(1) + '%';
+      resultDiv.classList.remove('hidden');
+      
+      // Colors based on current mode
+      const colors = currentMode === 'pcm' 
+        ? ['#FF6B35', '#4EA5D9', '#FFBF69', '#7678ED'] 
+        : ['#FF6B35', '#4EA5D9', '#4CAF50', '#8BC34A'];
+      
+      // Enhanced celebration effect based on percentile
+      setTimeout(() => {
+        if (percentile > 95) {
+          // Top tier celebration - fireworks effect
+          const duration = 5 * 1000;
+          const animationEnd = Date.now() + duration;
+          const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+          
+          function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+          }
+          
+          const interval = setInterval(function() {
+            const timeLeft = animationEnd - Date.now();
+            
+            if (timeLeft <= 0) {
+              return clearInterval(interval);
+            }
+            
+            const particleCount = 50 * (timeLeft / duration);
+            
+            confetti(Object.assign({}, defaults, { 
+              particleCount, 
+              origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+              colors: colors
+            }));
+            confetti(Object.assign({}, defaults, { 
+              particleCount, 
+              origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+              colors: colors
+            }));
+          }, 250);
+        } else if (percentile > 85) {
+          // High tier celebration - confetti shower
+          const end = Date.now() + (3 * 1000);
+          
+          (function frame() {
+            confetti({
+              particleCount: 2,
+              angle: 60,
+              spread: 55,
+              origin: { x: 0 },
+              colors: colors
+            });
+            confetti({
+              particleCount: 2,
+              angle: 120,
+              spread: 55,
+              origin: { x: 1 },
+              colors: colors
+            });
+            
+            if (Date.now() < end) {
+              requestAnimationFrame(frame);
+            }
+          }());
+        } else if (percentile > 70) {
+          // Medium tier celebration
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: colors
+          });
+        } else {
+          // Basic celebration for all scores
+          confetti({
+            particleCount: 50,
+            spread: 50,
+            origin: { y: 0.7 },
+            colors: colors.slice(0, 2)
+          });
+        }
+      }, 300);
+    });
+  }
+});
+
+
+</script>
+
+<!-- Percentile Calculator Modal -->
+<div id="percentile-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+  <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold text-gray-800">MHT CET Percentile Predictor</h3>
+      <button id="close-percentile-modal" class="text-gray-500 hover:text-gray-700">
+        <i class="ri-close-line text-2xl"></i>
+      </button>
+    </div>
+    
+    <div class="mb-4">
+      <div class="flex border-b">
+        <button id="pcm-tab" class="py-2 px-4 font-medium border-b-2 border-primary text-primary">PCM (Engineering)</button>
+        <button id="pcb-tab" class="py-2 px-4 font-medium text-gray-500 hover:text-gray-700">PCB (Medical)</button>
+      </div>
+    </div>
+    
+    <form id="percentile-form" class="space-y-4">
+      <div>
+        <label for="physics-marks" class="block text-sm font-medium text-gray-700">Physics Marks (out of 100)</label>
+        <input type="number" id="physics-marks" min="0" max="100" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary" required>
+      </div>
+      
+      <div>
+        <label for="chemistry-marks" class="block text-sm font-medium text-gray-700">Chemistry Marks (out of 100)</label>
+        <input type="number" id="chemistry-marks" min="0" max="100" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary" required>
+      </div>
+      
+      <div id="maths-field">
+        <label for="maths-marks" class="block text-sm font-medium text-gray-700">Mathematics Marks (out of 100)</label>
+        <input type="number" id="maths-marks" min="0" max="100" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary" required>
+      </div>
+      
+      <div id="biology-field" class="hidden">
+        <label for="biology-marks" class="block text-sm font-medium text-gray-700">Biology Marks (out of 100)</label>
+        <input type="number" id="biology-marks" min="0" max="100" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+      </div>
+      
+      <button type="submit" class="w-full bg-primary text-white py-2 px-4 rounded-button hover:bg-opacity-90 transition-colors">Calculate Percentile</button>
+    </form>
+    
+    <div id="result" class="mt-4 hidden">
+      <div class="border-t pt-4">
+        <h4 class="font-semibold text-gray-800 mb-2">Your Predicted Percentile:</h4>
+        <div class="bg-gray-100 p-4 rounded-lg">
+          <p class="text-2xl font-bold text-primary text-center" id="percentile-result">--</p>
+        </div>
+        <p class="text-sm text-gray-500 mt-2">Note: This is an estimate based on previous year data and may vary from actual results.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

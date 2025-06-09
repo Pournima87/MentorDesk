@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label>Username:</label>
+            <input type="text" name="username" required>
+
+            <label>Password:</label>
+            <input type="password" name="password" required>
+            <span class="toggle-password" onclick="togglePassword()">Show/Hide Password</span>
+
+            <button type="submit">Login</button>
+        </form>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <div class="login-link">
+            <p>Not Registered Yet? <a href="{% url 'register' %}">Register Here</a></p>
+        </div>
+    </div>
+    <script src="{% static 'js/main.js' %}"></script>
+</a>
+</body>
+</html>

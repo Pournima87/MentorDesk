@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mentorship Bookings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            secondary: '#4EA5D9',
+          },
+          borderRadius: {
+            button: '8px',
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.0.0/remixicon.min.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen overflow-x-hidden">
+
+  <!-- Background Image -->
+  <div class="absolute inset-0 bg-[url('{% static 'images/bg3.jpg' %}')] bg-cover bg-center bg-fixed z-0"></div>
+
+  <!-- Orange Overlay -->
+  <div class="absolute inset-0 bg-orange-500 bg-opacity-80 z-0"></div>
+
+  <!-- Foreground Content -->
+  <div class="relative z-10 p-6 flex items-center justify-center min-h-screen">
+    <div class="max-w-7xl w-full bg-white rounded-xl p-6 shadow-lg relative">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">📅 Mentorship Bookings</h2>
+
+      <!-- Bookings Table -->
+      <div class="bg-white rounded-xl shadow p-6 mb-10 overflow-auto">
+        {% if sessions %}
+        <table class="min-w-full table-auto">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Name</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Email</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Date</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Time</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Type</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Mode</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Concern</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">phone_number</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">additional_notes</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for session in sessions %}
+            <tr class="border-b">
+              <td class="px-6 py-3 text-gray-700">{{ session.full_name }}</td>
+              <td class="px-6 py-3 text-gray-700">{{ session.email }}</td>
+              <td class="px-6 py-3 text-gray-700">{{ session.preferred_date }}</td>
+              <td class="px-6 py-3 text-gray-700">{{ session.preferred_time }}</td>
+              <td class="px-6 py-3 text-gray-700">{{ session.session_type }}</td>
+              <td class="px-6 py-3 text-gray-700">{{ session.mode_of_session }}</td>
+              <td class="px-6 py-3 text-gray-700">{{ session.phone_number }}</td>
+              <td class="px-6 py-3 text-gray-700">{{ session.additional_notes }}</td>
+              <td class="px-6 py-3">
+                <div class="flex flex-wrap gap-2">
+                  <a href="{% url 'confirm_session' session.id %}"class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Confirm</a>
+                  <a href="{% url 'delete_session' session.id %}" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="text-gray-600 text-center text-lg">No sessions booked yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Back to Dashboard Button -->
+  <a href="{% url 'teacher_dashboard' %}"
+    class="fixed bottom-4 left-4 z-50 inline-flex items-center bg-secondary text-white rounded-button px-5 py-2 text-sm font-medium shadow-md hover:bg-opacity-90 transition">
+    <i class="ri-arrow-left-line mr-2"></i> Back to Dashboard
+  
+
+  
+</body>
+</html>

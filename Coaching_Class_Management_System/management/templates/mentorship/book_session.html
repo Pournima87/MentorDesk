@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book a Session</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            secondary: '#4EA5D9',
+          },
+          borderRadius: {
+            button: '8px',
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.0.0/remixicon.min.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen overflow-x-hidden">
+
+  <!-- Background Image -->
+  <div class="absolute inset-0 bg-[url('{% static 'images/bg3.jpg' %}')] bg-cover bg-center bg-fixed z-0"></div>
+
+  <!-- Orange Overlay -->
+  <div class="absolute inset-0 bg-orange-500 bg-opacity-80 z-0"></div>
+
+  <!-- Foreground Content -->
+  <div class="relative z-10 p-6 flex items-center justify-center min-h-screen">
+    <div class="max-w-3xl w-full bg-white rounded-xl p-8 shadow-lg relative">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">📅 Book a Mentorship Session</h2>
+
+      <!-- Session Booking Form -->
+      <form method="POST" action="{% url 'book_session' %}" class="space-y-4">
+        {% csrf_token %}
+        
+        <div>
+          <label class="block text-gray-700 font-medium">Full Name:</label>
+          <input type="text" name="name" required class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-medium">Email:</label>
+          <input type="email" name="email" required class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4">
+          <div class="flex-1">
+            <label class="block text-gray-700 font-medium">Preferred Date:</label>
+            <input type="date" name="date" required class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+          <div class="flex-1">
+            <label class="block text-gray-700 font-medium">Preferred Time:</label>
+            <input type="time" name="time" required class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-medium">Session Type:</label>
+          <select name="type" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            <option value="career">Career Guidance</option>
+            <option value="academic">Academic Help</option>
+            <option value="wellness">Mental Wellness</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-medium">Concern:</label>
+          <textarea name="concern" rows="4" required class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <label class="text-gray-700 font-medium">Mode:</label>
+          <label><input type="radio" name="mode" value="online" checked class="mr-1"> Online</label>
+          <label><input type="radio" name="mode" value="offline" class="mr-1"> Offline</label>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-medium">Phone Number:</label>
+          <input type="tel" name="phone" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-medium">Additional Notes:</label>
+          <textarea name="notes" rows="3" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+        </div>
+
+        <div class="pt-4">
+          <button type="submit" class="bg-primary text-white px-6 py-3 rounded-button hover:bg-opacity-90 transition font-medium">Book Session</button>
+        </div>
+        <!-- ✅ Display Django messages -->
+      {% if messages %}
+        <ul class="mb-4">
+          {% for message in messages %}
+            <li class="text-green-600 font-medium">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      </form>
+    </div>
+    
+  </div>
+
+  
+
+  <!-- Fixed Back to Dashboard Button -->
+  <a href="{% url 'base' %}"
+    class="fixed bottom-4 left-4 z-50 inline-flex items-center bg-secondary text-white rounded-button px-5 py-2 text-sm font-medium shadow-md hover:bg-opacity-90 transition">
+    <i class="ri-arrow-left-line mr-2"></i> Back to Dashboard</a>
+ 
+
+  
+</body>
+
+</html>

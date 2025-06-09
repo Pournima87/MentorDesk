@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MentorDesk Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF6B35',
+            secondary: '#4EA5D9',
+          },
+          borderRadius: {
+            button: '8px',
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.0.0/remixicon.min.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <!-- Navbar -->
+  <nav class="bg-white shadow px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-['Pacifico'] text-primary">MentorDesk</h1>
+    <span class="text-gray-600 font-medium">Admin Panel</span>
+    <a href="{% url 'logout' %}" class="px-4 py-2 text-primary border border-primary !rounded-button hover:bg-primary hover:text-white transition-colors whitespace-nowrap">Logout</a>
+
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto p-6">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">🧑‍🏫 Mentor Desk Teacher Dashboard</h2>
+
+<!-- KPIs -->
+<div class="grid sm:grid-cols-3 gap-6 mb-10">
+  <!-- Total Courses -->
+  <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-gray-500">Total Courses</p>
+        <h3 class="text-2xl font-semibold text-gray-800" id="course-count">{{ total_courses }}</h3>
+      </div>
+      <i class="ri-book-open-line text-3xl text-primary"></i>
+    </div>
+  </div>
+
+  <!-- Materials -->
+  <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-gray-500">Materials</p>
+        <h3 class="text-2xl font-semibold text-gray-800" id="material-count">{{ total_materials }}</h3>
+      </div>
+      <i class="ri-file-list-line text-3xl text-primary"></i>
+    </div>
+  </div>
+
+  <!-- Students -->
+  <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-gray-500">Students</p>
+        <h3 class="text-2xl font-semibold text-gray-800" id="student-count">{{ total_students }}</h3>
+      </div>
+      <i class="ri-user-line text-3xl text-primary"></i>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Action Buttons -->
+    <div class="grid md:grid-cols-2 gap-4 mb-10">
+      <a href="{% url 'courses_update' %}" class="bg-primary text-white rounded-button px-6 py-3 font-medium flex items-center gap-2 hover:bg-opacity-90 transition">
+        <i class="ri-add-line"></i> Add New Course
+      </button>
+      <a href="{% url 'materials_upload' %}" class="bg-primary text-white rounded-button px-6 py-3 font-medium flex items-center gap-2 hover:bg-opacity-90 transition">
+        <i class="ri-upload-cloud-line"></i> Upload Study Material
+      </button>
+      <a href="{% url 'session_list' %}" class="bg-secondary text-white rounded-button px-6 py-3 font-medium md:col-span-2 flex items-center justify-center gap-2 hover:bg-opacity-90 transition">
+        <i class="ri-calendar-check-line"></i> View All Mentorship Bookings
+      </button>
+    </div>
+
+
+    <!-- Manage Students 
+    <div class="bg-white rounded-xl shadow p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-semibold text-gray-800">🧑 Manage Students</h3>
+        <button id="toggle-students" class="text-sm text-primary hover:underline">View</button>
+      </div>
+      <div id="student-list">
+        <ul class="list-disc pl-5 text-gray-700">
+          <li>Atharva Shelar</li>
+          <li>Riya Kapoor</li>
+          <li>Vishal Mehta</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+-->
+  
+
+
+   <footer class="text-center text-sm text-gray-500 mt-12 mb-4">
+    © 2025 MentorDesk. All rights reserved.
+  </footer>
+  
+</body>
+</html>
